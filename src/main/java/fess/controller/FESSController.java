@@ -19,7 +19,6 @@ public class FESSController {
 
     private final FessService fessService;
 
-    @ApiOperation(value = "send a transaction")
     @RequestMapping(value = "/send", method = RequestMethod.POST, produces = "application/json")
     public MVCResponse sendTransaction(@RequestBody FESS fess, @RequestParam("threads") Integer numberThreads,
                                        @RequestParam("interval") Integer interval) {

@@ -2,12 +2,14 @@ package fess.service.implementations;
 
 import fess.dto.FESS;
 import fess.service.interfaces.FessInterface;
+import fess.utils.requests.RequestHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -20,7 +22,35 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class FessService implements FessInterface {
 
-    private final String url = "/send";
+    private final String url = "http://167.172.36.196:8115/send";
+
+    @PostConstruct
+    public void test(){
+        List<FESS> fessList = new ArrayList<>();
+        fessList.add(FESS.builder()
+                .from("40C1E629D69B12AC244C5BD620275EA88299B976")
+                .to("FESS7E713AAEFE476B6B74224F06407560209E0268F5")
+                .amount(100L)
+                .build());
+        fessList.add(FESS.builder()
+                .from("40C1E629D69B12AC244C5BD620275EA88299B976")
+                .to("FESS7E713AAEFE476B6B74224F06407560209E0268F5")
+                .amount(30L)
+                .build());
+        fessList.add(FESS.builder()
+                .from("40C1E629D69B12AC244C5BD620275EA88299B976")
+                .to("FESS7E713AAEFE476B6B74224F06407560209E0268F5")
+                .amount(20L)
+                .build());
+
+        ExecutorService executorService = Executors.newFixedThreadPool(fessList.size());
+        fessList.forEach(
+                fess -> {
+                    executorService.submit(() -> {
+                        send(fess, 2, 1000);
+                    });
+        });
+    }
 
     @Override
     public void send(FESS fess, Integer numberThreads, Integer interval) {
@@ -31,12 +61,12 @@ public class FessService implements FessInterface {
             fessList.forEach(
                     obj -> {
                         executorService.submit(() -> {
-                            //                RequestHelper.POST_Request(url,  requiredParams);
-                            System.out.println(System.currentTimeMillis() + "  " + requiredParams);
+//                            System.out.println(obj);
+                            System.out.println(RequestHelper.POST_Request(url,  requiredParams));
                         });
                     });
             try {
-                Thread.sleep(interval * 60000);
+                Thread.sleep(interval);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
