@@ -10,6 +10,6 @@ public class FESS {
 
     private String from;
     private String to;
-    private Long amount;
+    private Double amount;
 
 }

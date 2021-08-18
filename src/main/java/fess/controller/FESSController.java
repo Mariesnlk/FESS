@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class FESSController {
 
-    private final FessService fessService;
-
-    @RequestMapping(value = "/send", method = RequestMethod.POST, produces = "application/json")
-    public MVCResponse sendTransaction(@RequestBody FESS fess, @RequestParam("threads") Integer numberThreads,
-                                       @RequestParam("interval") Integer interval) {
-        try {
-            fessService.send(fess, numberThreads, interval);
-            return new MVCResponseObject(200, "OK");
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new MVCResponseError(400, e.getMessage());
-        }
-    }
+//    private final FessService fessService;
+//
+//    @RequestMapping(value = "/send", method = RequestMethod.POST, produces = "application/json")
+//    public MVCResponse sendTransaction(@RequestBody FESS fess, @RequestParam("threads") Integer numberThreads,
+//                                       @RequestParam("interval") Integer interval) {
+//        try {
+//            fessService.send(fess, numberThreads, interval);
+//            return new MVCResponseObject(200, "OK");
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//            return new MVCResponseError(400, e.getMessage());
+//        }
+//    }
 }

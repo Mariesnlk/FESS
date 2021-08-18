@@ -50,12 +50,12 @@ public class RequestHelper {
             if (headers != null && headers.length != 0) request.headers(headers);
             HttpResponse<String> stringHttpResponse = getHttpClient().sendAsync(request.build(), HttpResponse.BodyHandlers.ofString()).get();
 
-            //    String code = String.valueOf(stringHttpResponse.statusCode());
-            //     System.out.println("Status: " + stringHttpResponse.statusCode());
+            String code = String.valueOf(stringHttpResponse.statusCode());
+            System.out.println("Status: " + stringHttpResponse.statusCode());
             return stringHttpResponse.body();
         } catch (URISyntaxException ignored) {
         } catch (InterruptedException | ExecutionException e) {
-            //   e.printStackTrace();
+            e.printStackTrace();
         }
         return "";
     }
